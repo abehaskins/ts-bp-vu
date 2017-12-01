@@ -2,6 +2,8 @@
 import Vue from "vue";
 import { Component, Inject, Model, Prop, Watch } from "vue-property-decorator";
 
+import Boilerplate from "../Boilerplate";
+
 // Typings for modules imported dynamically
 import FirebaseAppModule = require("firebase/app");
 
@@ -13,7 +15,9 @@ type Visit = {
   confirmed_at: Date;
 };
 
-@Component
+@Component({
+  components: {Boilerplate}
+})
 export default class App extends Vue {
   name = "app";
   msg = "Welcome to Your Vue.js App";
