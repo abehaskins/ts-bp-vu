@@ -4,11 +4,7 @@ import { Component, Inject, Model, Prop, Watch } from "vue-property-decorator";
 
 import Boilerplate from "../Boilerplate";
 
-// Typings for modules imported dynamically
-import FirebaseAppModule = require("firebase/app");
-
-// Include automock for automated mocking
-import "../../automock";
+import FirebaseSingleton from "../../services/FirebaseSingleton";
 
 type Visit = {
   created_at: Date;
@@ -21,29 +17,13 @@ type Visit = {
 export default class App extends Vue {
   name = "app";
   msg = "Welcome to Your Vue.js App";
-  required = {
-    firebase: FirebaseAppModule
-  };
   visits: Visit[] = [];
+  fst: FirebaseSingleton;
 
   async mounted() {
-    await Promise.all([
-      System.import("firebase"),
-      System.import("isomorphic-fetch")
-    ]);
+    this.fst = await FirebaseSingleton.GetInstance();
 
-    this.required.firebase = <typeof FirebaseAppModule>require("firebase/app");
-    require("firebase/firestore");
-    require("isomorphic-fetch");
-
-    const config = await fetch("/__/firebase/init.json").then(response =>
-      response.json()
-    );
-
-    this.required.firebase.initializeApp(config);
-
-    this.required.firebase
-      .firestore()
+    this.fst.firestore
       .collection("visits")
       .onSnapshot(snapshot => {
         snapshot.docChanges.forEach(change => {
@@ -55,8 +35,7 @@ export default class App extends Vue {
   }
 
   add_visit() {
-    this.required.firebase
-      .firestore()
+    this.fst.firestore
       .collection("visits")
       .add({ created_at: new Date() });
   }
