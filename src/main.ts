@@ -1,5 +1,8 @@
 import Vue from "vue";
+import VueRouter from "vue-router";
+
 import App from "./components/App";
+import Boilerplate from "./components/Boilerplate";
 
 if ("serviceWorker" in navigator && !document.location.host.startsWith("localhost")) {
   window.addEventListener("load", async () => {
@@ -15,7 +18,17 @@ if ("serviceWorker" in navigator && !document.location.host.startsWith("localhos
   });
 }
 
+Vue.use(VueRouter)
+
+const router = new VueRouter({
+  mode: 'history',
+  routes: [
+    { path: '/', component: App },
+    { path: '/boilerplate', component: Boilerplate }
+  ]
+});
+
 new Vue({
   el: "#app",
-  render: h => h(App)
+  router
 });

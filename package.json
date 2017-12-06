@@ -17,7 +17,8 @@
     "jest": "^20.0.4",
     "jest-vue-preprocessor": "^1.1.0",
     "sass-loader": "^6.0.6",
-    "vue": "^2.3.3"
+    "vue": "^2.3.3",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "@types/chai": "^4.0.3",

@@ -5458,6 +5458,10 @@ vue-property-decorator@6.0.0:
     reflect-metadata "^0.1.10"
     vue-class-component "^6.0.0"
 
+vue-router@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"
+
 vue-template-compiler-loader@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/vue-template-compiler-loader/-/vue-template-compiler-loader-1.0.4.tgz#073f27a524cf90ce700fb5c1ec031e3b17c21ee6"
