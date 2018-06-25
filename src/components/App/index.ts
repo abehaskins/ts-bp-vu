@@ -12,7 +12,7 @@ type Visit = {
 };
 
 @Component({
-  components: {Boilerplate}
+  components: { Boilerplate }
 })
 export default class App extends Vue {
   name = "app";
@@ -23,22 +23,18 @@ export default class App extends Vue {
   async mounted() {
     this.fst = await FirebaseSingleton.GetInstance();
 
-    this.fst.firestore
-      .collection("visits")
-      .onSnapshot(snapshot => {
-        snapshot.docChanges.forEach(change => {
-          if (change.type == "added") {
-            this.visits.push(change.doc.data() as Visit);
-          }
-        });
+    this.fst.firestore.collection("visits").onSnapshot(snapshot => {
+      snapshot.docChanges.forEach(change => {
+        if (change.type == "added") {
+          this.visits.push(change.doc.data() as Visit);
+        }
       });
+    });
   }
 
   add_visit() {
-    this.fst.firestore
-      .collection("visits")
-      .add({ created_at: new Date() });
+    this.fst.firestore.collection("visits").add({ created_at: new Date() });
   }
 }
 
-require("./template.html")(App);
+require("./app.html")(App);

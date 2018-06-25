@@ -4,10 +4,12 @@ import VueRouter from "vue-router";
 import App from "./components/App";
 import Boilerplate from "./components/Boilerplate";
 
-if ("serviceWorker" in navigator && !document.location.host.startsWith("localhost")) {
+if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("/sw.js");
+      const reg = await (navigator as any).serviceWorker.register("/sw.js", {
+        scope: "/"
+      });
       console.log(
         "ServiceWorker registration successful with scope: ",
         reg.scope
@@ -18,13 +20,13 @@ if ("serviceWorker" in navigator && !document.location.host.startsWith("localhos
   });
 }
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   routes: [
-    { path: '/', component: App },
-    { path: '/boilerplate', component: Boilerplate }
+    { path: "/", component: App },
+    { path: "/boilerplate", component: Boilerplate }
   ]
 });
 

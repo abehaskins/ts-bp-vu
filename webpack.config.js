@@ -14,7 +14,7 @@ module.exports = {
         test: /\.html$/,
         loader: "vue-template-loader",
         options: {
-          scoped: true,
+          scoped: false,
           transformToRequire: {
             // The key should be element name,
             // the value should be attribute name or its array
@@ -62,8 +62,9 @@ module.exports = {
       {
         apply: function(resolver) {
           resolver.plugin("resolve", function(fn, next) {
-            if (fn.request.endsWith("template.html")) {
-              fn.request += "?style=./style.scss";
+            if (fn.request.endsWith(".html")) {
+              const stylesheet = fn.request.replace(".html", ".scss");
+              fn.request += `?style=${stylesheet}`;
             }
             next();
           });
@@ -76,6 +77,10 @@ module.exports = {
     noInfo: true,
     proxy: {
       "/__/**": {
+        target: "http://localhost:5000/",
+        secure: false
+      },
+      "/sw.js": {
         target: "http://localhost:5000/",
         secure: false
       }
@@ -93,7 +98,8 @@ if (process.env.NODE_ENV === "production") {
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       "process.env": {
-        NODE_ENV: '"production"'
+        NODE_ENV: '"production"',
+        JEBE_VERSION: `"${require("./dist/package.json").version}"`
       }
     }),
     // new webpack.optimize.UglifyJsPlugin({
@@ -104,6 +110,15 @@ if (process.env.NODE_ENV === "production") {
     // }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
+    })
+  ]);
+} else {
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new webpack.DefinePlugin({
+      "process.env": {
+        NODE_ENV: '"development"',
+        JEBE_VERSION: "'dev.el.lope.ment'"
+      }
     })
   ]);
 }

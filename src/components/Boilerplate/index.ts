@@ -9,4 +9,4 @@ export default class Boilerplate extends Vue {
   async mounted() {}
 }
 
-require("./template.html")(Boilerplate);
+require("./boilerplate.html")(Boilerplate);

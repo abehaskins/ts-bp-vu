@@ -16,7 +16,7 @@ const NONCACHED_HOSTS = [
 //   );
 // });
 
-self.addEventListener("fetch", function(event) {
+self.addEventListener("fetch", (event: any) => {
   event.respondWith(
     (function() {
       const isNoCache =
